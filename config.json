@@ -1,0 +1,6 @@
+{
+    "webserver" : {
+        "port" : 80,
+        "root" : "/public/"
+    }
+}
