@@ -1,6 +1,18 @@
 {
+    "markdown" : {
+        "allowedTags": "p|strong|span|a|strong|em|pre|br",
+        "allowedAttributes": {
+            "a": "href",
+            "span": "style"
+        }
+    },
     "webserver" : {
-        "port" : 80,
-        "root" : "/public/"
-    }
+        "port": 80,
+        "root": "/public/"
+    },
+    "rooms" : [
+        "Main",
+        "Developers",
+        "Support"
+    ]
 }

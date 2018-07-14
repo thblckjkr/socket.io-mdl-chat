@@ -1,137 +1,138 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
 <head>
-    <title>Minions messenger</title>
-    <link rel='stylesheet' href='/css/material.min.css'>
-    <script type="text/javascript" src="/js/material.min.js"></script>
+    <title>Little Messenger</title>
+    <!-- JQuery Library  -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous">
+    </script>
+
+    <!-- Main mdl stylessheet and javascript -->
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-red.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+    <!-- Custom stylessheet -->
     <link rel='stylesheet' href='/css/styles.css'>
 </head>
-<body>
-	<div class="overall" id='loading'>
-		<div class="center"><h3>Please wait while the chat loads</h3></div>
-	</div>
 
-	<div class="overall" id='loginfrm'>
-		<div style="margin: 5px auto; text-align: center;">
-			<h4>Hello! Welcome to the minions <em>messenger</em></h4><br>
-			<p style="margin: 0 15px 15px;">Please use the same username and password that you use on the <i>Repair System</i></p>
-            <div class="form-login mdl-shadow--6dp" style="max-width: 498.4px">
+<body>
+    <div class="overall" id='loading'>
+        <div class="text-centered">
+            <h3>Please wait while the chat loads</h3>
+        </div>
+    </div>
+
+    <div class="overall" id='login' style="display:none">
+        <div style="margin: 5px auto;" class="text-centered">
+            <h4> Hello! Welcome to the
+                <i>Little</i> Messwenger </h4>
+
+            <p style="margin: 0 15px 15px;">This chat is secure and nothing is logged</p>
+
+            <div class="mdl-shadow--6dp">
                 <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="clock">
-                    <label class="mdl-textfield__label" for="clock">Username...</label>
+                    <input class="mdl-textfield__input" type="text" id="login-username">
+                    <label class="mdl-textfield__label" for="login-username">Pick a username</label>
                 </div>
                 <br>
-                <!-- <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="password" id="password">
-                    <label class="mdl-textfield__label" for="password">Password...</label>
-                </div> -->
-                <br>
-    			<button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" id="login">
+                <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" id="login-btn">
                     <i class="material-icons">navigate_next</i>
                 </button>
             </div>
-		</div>
-	</div>
-
-	<div class="overall" id="selectRoom" style="display: none;">
-        <div class="close-form" for="selectRoom"><i class="material-icons">close</i></div>
-		<div class="center"><h3>On wich room do you like join?</h3></div>
-        <div class="center">
-            <p><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored joinRoom" for="Main">
-                <b>Main chat</b>
-            </button></p>
-            <p><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored joinRoom" for="Developers">
-                Chat with <b>Developers</b>
-            </button></p>
-            <p><button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored joinRoom" for="Support">
-                Chat with <b>Support</b>
-            </button></p>
         </div>
-	</div>
-
+    </div>
+    <!-- Material head -->
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <!-- Material head -->
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
-                <span class="mdl-layout-title" id="room">Main chat room</span>
+                <span class="mdl-layout-title" id="room-name">Main chat room</span>
                 <div class="mdl-layout-spacer"></div>
             </div>
         </header>
         <div class="mdl-layout__drawer" id="drawer">
-            <span class="mdl-layout-title">Minion's messenger</span>
+            <span class="mdl-layout-title">
+                <i>Little</i> Messenger</span>
             <nav class="mdl-navigation">
                 <div style="margin-left: 25px">
-                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="showAlerts">
-						<input type="checkbox" id="showAlerts" class="mdl-switch__input" checked>
-						<span class="mdl-switch__label">Show alerts</span>
-					</label>
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="option-showAlerts">
+                        <input class="mdl-switch__input" type="checkbox" id="option-showAlerts" checked>
+                        <span class="mdl-switch__label">Show alerts</span>
+                    </label>
                 </div>
                 <div style="margin-left: 25px; margin-top: 10px">
-                	<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="playSound">
-						<input type="checkbox" id="playSound" class="mdl-switch__input" checked>
-						<span class="mdl-switch__label">Play sound?</span>
-					</label>
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="options-playSound">
+                        <input class="mdl-switch__input" type="checkbox" id="options-playSound" checked>
+                        <span class="mdl-switch__label">Play sound?</span>
+                    </label>
                 </div>
                 <hr>
-                <li class='mdl-navigation__link' id='joinRoom' style="cursor: pointer;">JOIN INTO A ROOM</li>
-                <hr>
-                <li class="mdl-navigation__link" style="color: black">Lista de usuarios en la sala</li>
-                <div id="users">
-                    <!-- the users go here! -->
-                </div>
+
             </nav>
         </div>
         <!--/ Material head -->
+
+        <!-- Messages tab -->
         <main class="mdl-layout__content">
-            <!-- Form to upload files to the server -->
-            <div id="upload-form" class="upload-form">
-                <div class="close-form" for="upload-form"><i class="material-icons">close</i></div>
-                <div class="send-image-form">
-                    <input id="input-image" accept='image/*' type="file">
-                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" id="send-image">
-                        <i class="material-icons">cloud_upload</i>
-                    </button>
-                </div>
-            </div>
-            <!--/ Form to upload files to the server -->
-            <div class="upload-photo">
-                <button class="mdl-button mdl-js-button mdl-button--fab" id="upload-btn">
-                    <i class="material-icons" style="color: rgb(203, 190, 190);">insert_photo</i>
-                </button>
-            </div>
             <div class="page-content">
-            	<div class="container" id='container' style="padding-bottom: 78px;">
-	                <div class="messages-container">
-	                    <div id="messages"></div>
-	                </div>
-                </div>
-                <div class="send-message">
-                    <form action="" class="sendMessage mdl-shadow--6dp">
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label"  style="width:calc(100% - 80px);">
-                            <input class="mdl-textfield__input" type="text" id="m" autocomplete="off">
-                            <label class="mdl-textfield__label" for="m">Send your messagge...</label>
+                <!-- Your content goes here -->
+                <div class="mdl-tabs mdl-js-tabs" id="tabs-chat">
+                    <div class="mdl-tabs__tab-bar" id="bar-chat">
+                        <a href="#messages-main" class="mdl-tabs__tab is-active">
+                            main
+                        </a>
+                        <a href="#add-chat" class="mdl-tabs__tab">
+                            <i class="material-icons text-inline">add</i> Add room
+                        </a>
+                    </div>
+                    <div class="mdl-tabs__panel messages-container chat-window is-active" id="messages-main">
+                    </div>
+                    <div class="mdl-tabs__panel messages-container chat-window" id="add-chat">
+                        <div class="mdl-grid">
+                            <div class="mdl-cell mdl-cell--4-col col-centered text-centered">
+                                <form action="#">
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                        <input class="mdl-textfield__input" type="text" id="add-chat-name" pattern="-?[0-9a-Z]*(\.[0-9a-Z]+)?">
+                                        <label class="mdl-textfield__label" for="add-chat-name">New rooom name</label>
+                                    </div>
+
+                                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                        <input class="mdl-textfield__input" type="text" id="add-chat-password">
+                                        <label class="mdl-textfield__label" for="add-chat-password">Set a password (blank for none)</label>
+                                    </div>
+                                    <br>
+                                    <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" id="login-btn">
+                                        <i class="material-icons">add</i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" id="send">
-                            <i class="material-icons">send</i>
-                        </button>
-                    </form>
+                    </div>
+                    <!-- The container for the message tab -->
+                    <div id="send-container">
+                        <div class="mdl-shadow--2dp">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="send-text-parent">
+                                <textarea class="mdl-textfield__input" type="text" rows="2" id="send-text"></textarea>
+                                <label class="mdl-textfield__label" for="send-text">Put here your message</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- Socket.IO Library -->
     <!-- <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script> -->
-    <script type="text/javascript" src="/js/socket.io.min.js"></script>
-    
-    <!-- <script src="http://code.jquery.com/jquery-1.11.1.js"></script> -->
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 
-    <!-- CSS Emoticons https://os.alfajango.com/css-emoticons/-->
-    <link rel="stylesheet" type="text/css" href="/css/jquery.cssemoticons.css" />
-
-    <script type="text/javascript" src="/js/jquery.cssemoticons.min.js"></script>
-    <!--/CSS Emoticons-->
-
+    <!-- Chat engine AND usefull functions -->
+    <script type="text/javascript" src="/js/chat.js"></script>
     <script type="text/javascript" src="/js/script.js"></script>
+
+    <!-- Audio for the chat -->
+    <audio id="audio">
+        <source src="/audio/sound.ogg" type="audio/ogg">
+    </audio>
 </body>
-</html>
