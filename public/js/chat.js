@@ -48,7 +48,7 @@ function sendFile(inp) {
             });
             var data = {
                 message: 'The file was sent to everybody',
-                timeout: 1500
+                timeout: 2500
             };
             $snackbar.MaterialSnackbar.showSnackbar(data);
             
@@ -59,16 +59,15 @@ function sendFile(inp) {
 
 //Server sends a new message
 socket.on('chat', function (msg) {
-    //Calculate time
-    var d = new Date();
+    var color = (username != msg.user) ? "mdl-color--light-blue" : "mdl-color--teal"
     //Create new message
     var $main = $('<div></div>').addClass("message clearfix");
     var $message = $("<div></div>").html(msg.msg);
     var $chip = $("<span></span>").addClass("mdl-chip mdl-chip--contact");
-    var $icon = $("<span></span>").text(msg.user.charAt(0)).addClass("mdl-chip__contact mdl-color--teal mdl-color-text--white");
+    var $icon = $("<span></span>").text(msg.user.charAt(0)).addClass("mdl-chip__contact mdl-color-text--white " + color);
     var $nickname = $("<span></span>").text(msg.user).addClass("mdl-chip__text message-nick");
     var $date = $("<time></time>")
-        .attr( "datetime" , d.toISOString() )
+        .attr( "datetime" , new Date().toISOString() )
         .addClass("timeago");
     
     //Build the message html and append it to the correct room div
@@ -77,7 +76,7 @@ socket.on('chat', function (msg) {
     $chip.append($nickname);
     $main.append($message);
     $main.append($chip);
-    
+
     $('#messages-' + msg.room).append($main);
     
     $main.find("time.timeago").timeago();
@@ -88,20 +87,22 @@ socket.on('chat', function (msg) {
     }, 1500);
     
     // Notificate based on user preferences
-    notificate("New message from " + msg.user + " on " + msg.room, msg.msg);
+    if(username != msg.user){
+        notificate("New message from " + msg.user + " on " + msg.room, msg.msg);
+    }
 });
 
 //Server sends a new photo
 socket.on('chat image', function (msg) {
+    var color = (username != msg.user) ? "mdl-color--light-blue" : "mdl-color--teal"
     //Create new message
-    console.log(msg)
     var $main = $('<div></div>').addClass("message clearfix");
     var $message = $("<div></div>").append($('<img>',{
         src: msg.img,
         class:'message-image'
     }));
     var $chip = $("<span></span>").addClass("mdl-chip mdl-chip--contact");
-    var $icon = $("<span></span>").text(msg.user.charAt(0)).addClass("mdl-chip__contact mdl-color--teal mdl-color-text--white");
+    var $icon = $("<span></span>").text(msg.user.charAt(0)).addClass("mdl-chip__contact mdl-color-text--white " + color);
     var $nickname = $("<span></span>").text(msg.user).addClass("mdl-chip__text message-nick");
     var $date = $("<time></time>")
         .attr( "datetime" , new Date().toISOString() )
@@ -124,5 +125,7 @@ socket.on('chat image', function (msg) {
     }, 1500);
     
     // Notificate based on user preferences
-    notificate("New photo from " + msg.user + " on " + msg.room, "image");
+    if(username != msg.user){
+        notificate("New message from " + msg.user + " on " + msg.room, msg.msg);
+    }
 });
