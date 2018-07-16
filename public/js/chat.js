@@ -40,7 +40,7 @@ socket.on('chat', function (msg) {
     //Calculate time
     var d = new Date();
     //Create new message
-    var $main = $('<div></div>').addClass("message clearfix " + my);
+    var $main = $('<div></div>').addClass("message clearfix");
     var $message = $("<div></div>").html(msg.msg);
     var $chip = $("<span></span>").addClass("mdl-chip mdl-chip--contact");
     var $icon = $("<span></span>").text(msg.user.charAt(0)).addClass("mdl-chip__contact mdl-color--teal mdl-color-text--white");
