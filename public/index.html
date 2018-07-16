@@ -33,7 +33,7 @@
 
             <div class="mdl-shadow--6dp">
                 <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="login-username">
+                    <input class="mdl-textfield__input" type="text" id="login-username" name="login-username">
                     <label class="mdl-textfield__label" for="login-username">Pick a username</label>
                 </div>
                 <br>
@@ -82,9 +82,10 @@
                         <a href="#messages-main" class="mdl-tabs__tab is-active">
                             main
                         </a>
-                        <a href="#add-chat" class="mdl-tabs__tab">
+                        <!-- TAB DISABLED FOR DEV -->
+                        <!-- <a href="#add-chat" class="mdl-tabs__tab">
                             <i class="material-icons text-inline">add</i> Add room
-                        </a>
+                        </a> -->
                     </div>
                     <div class="mdl-tabs__panel messages-container chat-window is-active" id="messages-main">
                     </div>
@@ -93,12 +94,13 @@
                             <div class="mdl-cell mdl-cell--4-col col-centered text-centered">
                                 <form action="#">
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                        <input class="mdl-textfield__input" type="text" id="add-chat-name" pattern="-?[0-9a-Z]*(\.[0-9a-Z]+)?">
+                                        <input class="mdl-textfield__input" type="text" id="add-chat-name"
+                                        name="add-chat-name" pattern="-?[0-9a-Z]*(\.[0-9a-Z]+)?">
                                         <label class="mdl-textfield__label" for="add-chat-name">New rooom name</label>
                                     </div>
 
                                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                        <input class="mdl-textfield__input" type="text" id="add-chat-password">
+                                        <input class="mdl-textfield__input" type="password" id="add-chat-password" name="add-chat-password">
                                         <label class="mdl-textfield__label" for="add-chat-password">Set a password (blank for none)</label>
                                     </div>
                                     <br>
@@ -112,10 +114,26 @@
                     <!-- The container for the message tab -->
                     <div id="send-container">
                         <div class="mdl-shadow--2dp">
+
+                            <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored" id="send-photo">
+                                <i class="material-icons">insert_photo</i>
+                            </button>
+
+                            <input type="file" style="display: none" id="send-photo-file" accept="image/*"/>
+
+                            <div class="mdl-tooltip mdl-tooltip--top" for="send-photo">
+                                Send a photo
+                            </div>
+
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="send-text-parent">
                                 <textarea class="mdl-textfield__input" type="text" rows="2" id="send-text"></textarea>
                                 <label class="mdl-textfield__label" for="send-text">Put here your message</label>
                             </div>
+
+                            <div id="notification" class="mdl-js-snackbar mdl-snackbar">
+                                <div class="mdl-snackbar__text"></div> <button class="mdl-snackbar__action" type="button"></button>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -126,6 +144,9 @@
     <!-- Socket.IO Library -->
     <!-- <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
+    <!-- Timeago for chat  -->
+    <script type="text/javascript" src="js/jquery.timeago.js"></script>
 
     <!-- Chat engine AND usefull functions -->
     <script type="text/javascript" src="/js/chat.js"></script>

@@ -11,7 +11,7 @@
     padding-bottom: 3px;
     vertical-align: middle; 
 }
-.mdl-chip__text > small{
+.mdl-chip__text > time{
     color: rgb(158, 156, 156);
     margin-left: 5px;
 }
@@ -80,6 +80,11 @@ div.mdl-layout__drawer {
         }
     }
 }
+.message-image{
+    max-width: 100%;
+    max-height: 300px;
+    cursor: pointer;
+}
 /* Usefull classes */
 
 #loading {
@@ -112,9 +117,13 @@ div.mdl-layout__drawer {
     }
 }
 #send-text-parent{
-    width: ~"calc(100% - 30px)";
-    display: block;
+    width: ~"calc(100% - 75px)";
+    float: right;
     & > textarea {
         width: 100%;
     }
+}
+#send-photo{
+    margin-top: 21px;
+    float: left;
 }
