@@ -6,6 +6,9 @@
   	"name": "Teo Gonzalez Calzada",
   	"email": "teo.gonzalez.c@hotmail.com"
   },
+  "scripts": {
+    "start": "chat.js"
+  },
   "dependencies": {
     "express": "4.10.2",
     "socket.io": "1.2.0",

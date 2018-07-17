@@ -28,10 +28,18 @@ function sendMessage() {
         return;
     }
     $msg = $msg.replace(/(?:\r\n|\r|\n)/g, '<br>');
-    socket.emit('chat', {
-        msg: $msg,
-        room: $currentroom
-    });
+
+    if($currentroom == "private"){
+        socket.emit('private', {
+            msg: $msg,
+            to: $currentchat
+        });
+    }else{
+        socket.emit('chat', {
+            msg: $msg,
+            room: $currentroom
+        });
+    }
     
     $send.val('');
 }
@@ -42,10 +50,20 @@ function sendFile(inp) {
         var FR = new FileReader();
         FR.fileName = inp.files[0].name
         FR.onload = function (e) {
-            socket.emit('chat image', {
-                img: e.target.result,
-                room: $currentroom
-            });
+            // Send the image
+            if($currentroom == "private"){
+                socket.emit('private image', {
+                    img: target.result,
+                    to: $currentchat
+                });
+            }else{
+                socket.emit('chat image', {
+                    img: target.result,
+                    room: $currentroom
+                });
+            }
+
+            // Create a cute snackbar notification
             var data = {
                 message: 'The file was sent to everybody',
                 timeout: 2500
@@ -57,75 +75,98 @@ function sendFile(inp) {
     }
 }
 
-//Server sends a new message
+// Server sends a new message
 socket.on('chat', function (msg) {
-    var color = (username != msg.user) ? "mdl-color--light-blue" : "mdl-color--teal"
-    //Create new message
-    var $main = $('<div></div>').addClass("message clearfix");
     var $message = $("<div></div>").html(msg.msg);
-    var $chip = $("<span></span>").addClass("mdl-chip mdl-chip--contact");
-    var $icon = $("<span></span>").text(msg.user.charAt(0)).addClass("mdl-chip__contact mdl-color-text--white " + color);
-    var $nickname = $("<span></span>").text(msg.user).addClass("mdl-chip__text message-nick");
-    var $date = $("<time></time>")
-        .attr( "datetime" , new Date().toISOString() )
-        .addClass("timeago");
-    
-    //Build the message html and append it to the correct room div
-    $nickname.append($date);
-    $chip.append($icon);
-    $chip.append($nickname);
-    $main.append($message);
-    $main.append($chip);
-
-    $('#messages-' + msg.room).append($main);
-    
-    $main.find("time.timeago").timeago();
-    
-    // Scroll down
-    $('#messages-' + msg.room).animate({
-        scrollTop: $('#messages-' + msg.room).prop("scrollHeight")
-    }, 1500);
-    
-    // Notificate based on user preferences
-    if(username != msg.user){
-        notificate("New message from " + msg.user + " on " + msg.room, msg.msg);
-    }
+    addMessage($message, msg.room, msg.user)
 });
 
-//Server sends a new photo
+// Server sends a new photo
 socket.on('chat image', function (msg) {
-    var color = (username != msg.user) ? "mdl-color--light-blue" : "mdl-color--teal"
-    //Create new message
-    var $main = $('<div></div>').addClass("message clearfix");
     var $message = $("<div></div>").append($('<img>',{
         src: msg.img,
         class:'message-image'
     }));
-    var $chip = $("<span></span>").addClass("mdl-chip mdl-chip--contact");
-    var $icon = $("<span></span>").text(msg.user.charAt(0)).addClass("mdl-chip__contact mdl-color-text--white " + color);
-    var $nickname = $("<span></span>").text(msg.user).addClass("mdl-chip__text message-nick");
-    var $date = $("<time></time>")
-        .attr( "datetime" , new Date().toISOString() )
-        .addClass("timeago");
+    addMessage($message, msg.room, msg.user)
+});
+
+// Server send a new private message
+socket.on('private', function(msg) {
+console.log(msg)
+    // Workaround my own message
+    var addTo = (msg.from == username) ? msg.to : msg.from;
+
+    var $private_room = 'private-' + addTo;
     
-    //Build the message html and append it to the correct room div
-    $nickname.append($date);
-    $chip.append($icon);
-    $chip.append($nickname);
-    $main.append($message);
-    $main.append($chip);
-    
-    $('#messages-' + msg.room).append($main);
-    
-    $main.find("time.timeago").timeago();
-    
-    // Scroll down
-    $('#messages-' + msg.room).animate({
-        scrollTop: $('#messages-' + msg.room).prop("scrollHeight")
-    }, 1500);
-    
-    // Notificate based on user preferences
-    if(username != msg.user){
-        notificate("New message from " + msg.user + " on " + msg.room, msg.msg);
+    addRoomDiv($private_room, "[" + msg.from + "]");
+
+    var $message = $("<div></div>").html(msg.msg);
+    addMessage($message, $private_room, msg.from)
+});
+
+// Server sends a new private photo 
+socket.on('private image', function(msg){
+    var $message = $("<div></div>").append($('<img>',{
+        src: msg.img,
+        class:'message-image'
+    }));
+    addMessage($message, msg.room, msg.user)
+});
+
+// Servers disconnect
+socket.on('disconnect', function(usr){
+    if(usr == "transport error" || usr == "io server disconnect" || usr == "transport close"){
+        var data = {
+            message: 'You have been disconnected due a network failure',
+            timeout: 6500
+        };
+        $snackbar.MaterialSnackbar.showSnackbar(data);
+        location.reload();
     }
 });
+
+// A user disconnects
+socket.on('user disconnected', function($user){
+    // Create a cute snackbar notification
+    var data = {
+        message: $user + ' says goodbye',
+        timeout: 2500
+    };
+    $snackbar.MaterialSnackbar.showSnackbar(data);
+
+    // And notificate throwgh a normal notificate
+    if(username != $user){
+        notificate( $user + " disconnected" , $user + " says bye!");
+    }
+});
+
+// A new user logged to the server
+socket.on('new user', function($user){
+    // Create a cute snackbar notification
+    var data = {
+        message: $user + ' says hello',
+        timeout: 2500
+    };
+    $snackbar.MaterialSnackbar.showSnackbar(data);
+
+    // And notificate throwgh a normal notificate
+    if(username != $user){
+        notificate( $user + " connected" , $user + " says hello!");
+    }
+})
+
+// The server is sending a users list
+socket.on('update users', function(data){
+    $('#options-users').empty();
+    if( typeof(data) !== "undefined" && data !== null ){
+        data.forEach( function(user){ 
+            var temp = $('<li></li>', {
+                class: "mdl-navigation__link message-nick",
+            })
+            .text(user)
+            .attr("data", user);
+
+            $('#options-users').append(temp);
+        });
+    }
+})

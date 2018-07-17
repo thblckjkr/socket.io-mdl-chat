@@ -1,6 +1,6 @@
 {
     "markdown" : {
-        "allowedTags": "p|strong|span|a|strong|em|pre|br",
+        "allowedTags": "br|p|strong|span|a|strong|em|pre|code",
         "allowedAttributes": {
             "a": "href",
             "span": "style"
