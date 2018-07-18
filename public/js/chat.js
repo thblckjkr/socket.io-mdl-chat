@@ -92,7 +92,6 @@ socket.on('chat image', function (msg) {
 
 // Server send a new private message
 socket.on('private', function(msg) {
-console.log(msg)
     // Workaround my own message
     var addTo = (msg.from == username) ? msg.to : msg.from;
 
@@ -106,11 +105,19 @@ console.log(msg)
 
 // Server sends a new private photo 
 socket.on('private image', function(msg){
+    // Workaround my own message
+    var addTo = (msg.from == username) ? msg.to : msg.from;
+
     var $message = $("<div></div>").append($('<img>',{
         src: msg.img,
         class:'message-image'
     }));
-    addMessage($message, msg.room, msg.user)
+
+    var $private_room = 'private-' + addTo;
+
+    addRoomDiv($private_room, "[" + msg.from + "]");
+    
+    addMessage($message, msg.room, msg.from)
 });
 
 // Servers disconnect
