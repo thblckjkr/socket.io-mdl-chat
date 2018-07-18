@@ -53,12 +53,12 @@ function sendFile(inp) {
             // Send the image
             if($currentroom == "private"){
                 socket.emit('private image', {
-                    img: target.result,
+                    img: e.target.result,
                     to: $currentchat
                 });
             }else{
                 socket.emit('chat image', {
-                    img: target.result,
+                    img: e.target.result,
                     room: $currentroom
                 });
             }
