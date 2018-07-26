@@ -27,7 +27,9 @@ function sendMessage() {
     if($msg == ""){
         return;
     }
-    $msg = $msg.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    if($msg.indexOf("```") < 0){
+        $msg = $msg.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    }
 
     if($currentroom == "private"){
         socket.emit('private', {
